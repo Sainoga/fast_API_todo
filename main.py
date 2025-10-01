@@ -1,7 +1,12 @@
-from fastapi import APIRouter
-from pydantic import BaseModel
+from fastapi import FastAPI
+from todo import todo_router
 
-todo_router = APIRouter()
+app = FastAPI(title="ToDo API with Pydantic and CRUD")
 
-class TodoItem(BaseModel):
-    task: str 
+# Главная страница
+@app.get("/")
+async def welcome():
+    return {"message": "Welcome to ToDo API!"}
+
+# Подключаем роутер
+app.include_router(todo_router)
