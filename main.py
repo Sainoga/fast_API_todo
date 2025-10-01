@@ -1,5 +1,7 @@
 from fastapi import FastAPI
-from todo import todo_router
+from routes.todo import todo_router
+
+
 
 app = FastAPI(title="ToDo API with Pydantic and CRUD")
 

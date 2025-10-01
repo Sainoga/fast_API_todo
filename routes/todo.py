@@ -1,17 +1,11 @@
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
-from typing import Optional, List
+from models.todo import TodoUpdate, TodoItem
+from storage.storage import todo_list
 
 todo_router = APIRouter()
 
-# Модель задачи
-class TodoItem(BaseModel):
-    id: int               # уникальный идентификатор задачи
-    task: str             # текст задачи
-    completed: bool = False  # статус выполнения (по умолчанию False)
 
-# Список задач (пока хранится в памяти)
-todo_list: List[TodoItem] = []
+
 
 @todo_router.post("/todo", response_model=TodoItem)
 async def add_todo(todo: TodoItem):
@@ -28,9 +22,7 @@ async def get_todo(task_id: int):
             return t
     raise HTTPException(status_code=404, detail="Task not found")
 
-class TodoUpdate(BaseModel):
-    task: Optional[str] = None
-    completed: Optional[bool] = None
+
 
 @todo_router.put("/todo/{task_id}", response_model=TodoItem)
 async def update_todo(task_id: int, todo: TodoUpdate):
