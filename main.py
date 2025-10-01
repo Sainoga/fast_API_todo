@@ -1,10 +1,7 @@
-from fastapi import FastAPI
-from todo import todo_router
+from fastapi import APIRouter
+from pydantic import BaseModel
 
-app = FastAPI()
+todo_router = APIRouter()
 
-@app.get("/")
-async def welcome() -> dict:
-    return {"message": "Welcome!"}
-
-app.include_router(todo_router)
+class TodoItem(BaseModel):
+    task: str 
